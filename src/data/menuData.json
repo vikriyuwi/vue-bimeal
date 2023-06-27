@@ -1,0 +1,28 @@
+{
+    "menu":[
+        {
+            "name":"Croissant",
+            "price":"Rp 19,000",
+            "image":"data/croissant.png",
+            "type":"fa-cookie"
+        },
+        {
+            "name":"Lasagna",
+            "price":"Rp 23,000",
+            "image":"data/lasagna.png",
+            "type":"fa-burger"
+        },
+        {
+            "name":"Orange Juice",
+            "price":"Rp 15,000",
+            "image":"data/orangeJuice.png",
+            "type":"fa-mug-hot"
+        },
+        {
+            "name":"Tiramisu",
+            "price":"Rp 26,000",
+            "image":"data/tiramisu.png",
+            "type":"fa-cookie"
+        }
+    ]
+}
