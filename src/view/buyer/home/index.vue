@@ -1,9 +1,14 @@
 <script setup>
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
 import { ref, onMounted } from 'vue';
 
 import api from "../../../api";
 
 var products = ref([]);
+var accessToken = localStorage.getItem('token');
 
 const fetchDataProducts = async () => {
 
@@ -15,11 +20,20 @@ const fetchDataProducts = async () => {
         //set response data to state "Products"
         products.value = response.data.data
     });
+}
 
+const checkToken = async () => {
+    api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+    await api.get('/api/login-data')
+    .then(response => {
+        
+    }).catch(error => {
+        router.push({name:"login"});
+    });
 }
 
 onMounted(() => {
-
+    checkToken();
     //call method "fetchDataProducts"
     fetchDataProducts();
 });
@@ -167,7 +181,7 @@ onMounted(() => {
               </div>
               <div class="col-3 text-center">
                   <div class="col-con">
-                      <router-link to="login">
+                      <router-link to="profile">
                         <i class="fa-solid fa-xl fa-user"></i>
                       </router-link>
                   </div>

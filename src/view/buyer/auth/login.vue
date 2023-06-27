@@ -1,5 +1,5 @@
 <script setup>
-    import { ref } from "vue";
+    import { ref,onMounted } from "vue";
 
     //import router
     import { useRouter } from 'vue-router';
@@ -7,12 +7,24 @@
     //import api
     import api from "../../../api";
 
+    var accessToken = localStorage.getItem('token');
+
     //init router
     const router = useRouter();
 
     const username = ref("")
     const password = ref("")
     const errors = ref([]);
+
+    const checkToken = async () => {
+        api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+        await api.get('/api/login-data')
+        .then(response => {
+            router.push({name:"home"});
+        }).catch(error => {
+            router.push({name:"login"});
+        });
+    }
 
     const storeLogin = async () => {
 
@@ -34,6 +46,10 @@
             errors.value = error.response.data;
         });
     };
+    
+    onMounted(() => {
+        checkToken();
+    })
 </script>
 
 <template>
@@ -65,56 +81,5 @@
             <button class="btn btn-success rounded-4">Login</button>
         </form>
     </div>
-</div>
-<div class="footer container-fluid fixed-bottom d-flex justify-content-center">
-      <div class="footer-container rounded-5 shadow-sm mb-3">
-          <div class="footer-row row px-3">
-              <div class="col-3 text-center">
-                  <div class="col-con">
-                      <router-link to="/">
-                        <i class="fa-solid fa-xl fa-house"></i>
-                      </router-link>
-                  </div>
-                  <div class="rounded-5 selec mx-auto "></div>
-              </div>
-              <div class="col-3 text-center">
-                  <div class="col-con">
-                      <a href="#" id="search">
-                          <i class="fa-solid fa-xl fa-magnifying-glass"></i>
-                      </a>
-                  </div>
-                  <div class="rounded-5 selec mx-auto"></div>
-              </div>
-              <div class="col-3 text-center">
-                  <div class="col-con">
-                      <a href="#" id="history">
-                          <i class="fa-solid fa-xl fa-file-lines"></i>
-                      </a>
-                  </div>
-                  <div class="rounded-5 selec mx-auto"></div>
-              </div>
-              <div class="col-3 text-center active">
-                  <div class="col-con">
-                      <router-link to="login">
-                        <i class="fa-solid fa-xl fa-user"></i>
-                      </router-link>
-                  </div>
-                  <div class="rounded-5 selec mx-auto"></div>
-              </div>
-          </div>
-          <a href="#" class="cart-footer d-flex px-4 align-items-center mt-4">
-              <h4 class="me-auto">Rp 23,000</h4>
-              <i class="fa-solid fa-2xl fa-cart-plus me-2"></i>
-          </a>
-          <a href="#" class="ongoing-footer d-flex px-4 align-items-center mt-4">
-              <i class="fa-solid fa-2xl fa-wallet me-2"></i>
-              <h4 class="me-auto">Pay</h4>
-              <h4>Rp 23,000</h4>
-          </a>
-          <a href="#" class="paid-footer d-flex px-4 align-items-center mt-4">
-              <h4 class="me-auto">See order status</h4>
-              <i class="fa-solid fa-2xl fa-file-lines me-2"></i>
-          </a>
-      </div>
 </div>
 </template>
