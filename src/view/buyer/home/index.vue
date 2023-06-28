@@ -1,11 +1,10 @@
 <script setup>
 import { useRouter } from 'vue-router';
+import { ref, onMounted } from 'vue';
+import api from "../../../api";
+import addOrderButton from './addOrderButton.vue';
 
 const router = useRouter();
-
-import { ref, onMounted } from 'vue';
-
-import api from "../../../api";
 
 var products = ref([]);
 var accessToken = localStorage.getItem('token');
@@ -16,25 +15,52 @@ const fetchDataProducts = async () => {
     await api.get('/api/product')
 
     .then(response => {
-
-        //set response data to state "Products"
         products.value = response.data.data
     });
 }
 
 const checkToken = async () => {
-    api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-    await api.get('/api/login-data')
-    .then(response => {
-        
-    }).catch(error => {
+    if(localStorage.getItem("token")) {
+        api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+        await api.get('/api/login-data')
+        .then(() => {
+
+        }).catch(error => {
+            router.push({name:"login"});
+        });
+    } else {
         router.push({name:"login"});
-    });
+    }
 }
+
+// const addOrder = async (id) => {
+//     const [isLoading, setLoading] = useState(false);
+//     const [isSuccess, setSuccess] = useState(false);
+
+//     let formData = new FormData();
+
+//     formData.append("product_id", id);
+//     formData.append("quantity", 1);
+
+//     api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+//     try {
+//         // Set loading state to true before making the API call
+//         setLoading(true);
+
+//         await api.post('/api/order/add', formData);
+
+//         // Set success state to true upon successful response
+//         setSuccess(true);
+//     } catch (error) {
+//         // Handle error if needed
+//     } finally {
+//         // Set loading state back to false regardless of success or failure
+//         setLoading(false);
+//     }
+// }
 
 onMounted(() => {
     checkToken();
-    //call method "fetchDataProducts"
     fetchDataProducts();
 });
 </script>
@@ -144,9 +170,7 @@ onMounted(() => {
                 <div class="menu-info text-center mt-3">
                     <p><b>{{ product.name }}</b></p>
                     <p class="fw-light">IDR {{ product.price }}</p>
-                    <button type="button" href="#" class="menu-btn rounded-4 py-3 w-100 text-center border-0 mt-3" onclick="addCart()">
-                        <i class="fa-solid fa-lg fa-cart-plus me-2"></i><b>add to cart</b>
-                    </button>
+                    <addOrderButton :id="product.id" :access-token="accessToken"></addOrderButton>
                 </div>
             </div>
         </div>

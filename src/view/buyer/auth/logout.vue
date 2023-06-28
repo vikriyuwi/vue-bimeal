@@ -16,6 +16,7 @@
         api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
         await api.get('/api/logout')
         .then(() => {
+            localStorage.removeItem("token");
             router.push({name:"login"});
         }).catch(() => {
             router.push({name:"login"});

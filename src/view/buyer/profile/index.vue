@@ -11,13 +11,17 @@ var accessToken = localStorage.getItem('token');
 var account = ref();
 
 const checkToken = async () => {
-    api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-    await api.get('/api/login-data')
-    .then(response => {
-        account.value = response.data.data;
-    }).catch(error => {
+    if(localStorage.getItem("token")) {
+        api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+        await api.get('/api/login-data')
+        .then((response) => {
+            account.value = response.data.data
+        }).catch(error => {
+            router.push({name:"login"});
+        });
+    } else {
         router.push({name:"login"});
-    });
+    }
 }
 
 const logout = async () => {

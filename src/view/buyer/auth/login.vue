@@ -5,7 +5,7 @@
     import { useRouter } from 'vue-router';
 
     //import api
-    import api from "../../../api";
+    import api from '../../../api';
 
     var accessToken = localStorage.getItem('token');
 
@@ -17,13 +17,17 @@
     const errors = ref([]);
 
     const checkToken = async () => {
-        api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-        await api.get('/api/login-data')
-        .then(response => {
-            router.push({name:"home"});
-        }).catch(error => {
+        if(localStorage.getItem("token")) {
+            api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+            await api.get('/api/login-data')
+            .then(response => {
+                router.push({name:"home"});
+            }).catch(error => {
+                router.push({name:"login"});
+            });
+        } else {
             router.push({name:"login"});
-        });
+        }
     }
 
     const storeLogin = async () => {
@@ -48,7 +52,7 @@
     };
     
     onMounted(() => {
-        checkToken();
+        checkToken(accessToken);
     })
 </script>
 
@@ -72,11 +76,11 @@
         <form @submit.prevent="storeLogin()">
             <div class="mb-3">
                 <label for="username">Username:</label>
-                <input type="text" class="form-control rounded-4" v-model="username" placeholder="john1423">
+                <input type="text" class="form-control rounded-4" id="username" v-model="username" placeholder="john1423">
             </div>
             <div class="mb-3">
                 <label for="password">Password:</label>
-                <input type="password" class="form-control rounded-4" v-model="password">
+                <input type="password" class="form-control rounded-4" id="password" v-model="password">
             </div>
             <button class="btn btn-success rounded-4">Login</button>
         </form>
