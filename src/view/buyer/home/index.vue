@@ -12,6 +12,7 @@ var account = ref([]);
 var products = ref([]);
 var balance = ref([]);
 var orderNow = ref([]);
+var orderProgress = '0%';
 var orderErrors = ref([]);
 var accessToken = localStorage.getItem('token');
 
@@ -33,8 +34,24 @@ const fetchOrder = async () => {
     api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
     await api.get('/api/order/now')
     .then(response => {
-        isLoadingOrder = false;
+        isLoadingOrder = false
         orderNow.value = response.data.data
+        switch (orderNow.value.status) {
+            case 'PAID':
+                orderProgress = '25%'
+                break;
+            case 'PROCESS':
+                orderProgress = '50%'
+                break;
+            case 'PICKUP':
+                orderProgress = '75%'
+                break;
+            case 'DONE':
+                orderProgress = '100%'
+                break;
+            default:
+                break;
+        }
     })
     .catch(error => {
         console.log(error.data)
@@ -65,22 +82,6 @@ const checkToken = async () => {
 
 const afterAddOrder = (data) => {
     orderNow.value = data
-}
-
-const payOrder = async () => {
-    isLoadingBalance = true;
-    isLoadingOrder = true;
-    //fetch data 
-    api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-    await api.get('/api/order/'+orderNow.value.id+'/pay')
-    .then(() => {
-        fetchBalance()
-        fetchOrder()
-    })
-    .catch(error => {
-        orderErrors.value = error.response.data
-        console.log(orderErrors)
-    });
 }
 
 // const addOrder = async (id) => {
@@ -164,7 +165,7 @@ onMounted(() => {
             <div v-if="!isLoadingOrder">
                 <div class="position-relative m-4">
                     <div class="progress" role="progressbar" aria-label="Progress" aria-valuemin="0" aria-valuemax="100">
-                        <div class="progress-bar"></div>
+                        <div class="progress-bar" :style="{width:orderProgress}"></div>
                     </div>
                     <div class="position-absolute top-0 translate-middle rounded-pill d-flex align-items-center justify-content-center" v-bind:class="{ 'active' : orderNow.status == 'NEW' }" id="state-1">
                         <i class="fa-solid fa-lg fa-house"></i>
@@ -197,12 +198,9 @@ onMounted(() => {
                     </h4>
                 </div>
                 <div class="col-6 d-flex align-items-end justify-content-center">
-                    <button v-if="orderNow.status == 'NEW'" @click="payOrder" href="#" class="btn btn-dark rounded-4 py-3 w-100 text-center">
-                        <i class="fa-solid fa-xl fa-wallet me-2"></i><b>pay now</b>
-                    </button>
-                    <button v-if="orderNow.status == 'PICKUP'" href="#" class="btn btn-dark rounded-4 py-3 w-100 text-center">
-                        <b>pick up</b>
-                    </button>
+                    <router-link :to="{name:'order.detail',params:{id:orderNow.id}}" class="btn btn-dark rounded-4 py-3 w-100 text-center">
+                        <b>View more</b>
+                    </router-link>
                 </div>
             </div>
         </div>
@@ -255,7 +253,7 @@ onMounted(() => {
           <div class="footer-row row px-3">
               <div class="col-3 text-center active">
                   <div class="col-con">
-                      <router-link to="">
+                      <router-link to="/">
                         <i class="fa-solid fa-xl fa-house"></i>
                       </router-link>
                   </div>

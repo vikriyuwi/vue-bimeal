@@ -24,13 +24,13 @@ $green: #61A01F;
         scale: 100%;
     }
 }
-@mixin progress-bar($icon-color, $progress){
+@mixin progress-bar($icon-color){
     .progress{
         height: 5px;
         background-color: $night-secondary;
         .progress-bar{
             background-color: $purple-primary;
-            width: $progress;
+            // width: $progress;
         }
     }
     .position-absolute{
@@ -171,7 +171,7 @@ body{
         }
         .status-container{
             background-color: $clean-primary;
-            @include progress-bar($clean-secondary, 25%);
+            @include progress-bar($clean-secondary);
             .status-info{
                 color: $night-primary;
                 a{
@@ -394,7 +394,7 @@ body{
             }
         }
         .ongoing-container{
-            @include progress-bar($clean-secondary, 75%);
+            @include progress-bar($clean-secondary);
             .your-order{
                 font-size: 0.8rem!important;
             }
@@ -502,4 +502,44 @@ body{
         }
     }
 }
-
+.spinner {
+    /* margin: 100px auto 0; */
+    width: 70px;
+    text-align: center;
+  }
+  
+  .spinner > div {
+    width: 8px;
+    height: 8px;
+    background-color: #fff;
+  
+    border-radius: 100%;
+    display: inline-block;
+    -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+    animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+  }
+  
+  .spinner .bounce1 {
+    -webkit-animation-delay: -0.32s;
+    animation-delay: -0.32s;
+  }
+  
+  .spinner .bounce2 {
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
+  }
+  
+  @-webkit-keyframes sk-bouncedelay {
+    0%, 80%, 100% { -webkit-transform: scale(0) }
+    40% { -webkit-transform: scale(1.0) }
+  }
+  
+  @keyframes sk-bouncedelay {
+    0%, 80%, 100% { 
+      -webkit-transform: scale(0);
+      transform: scale(0);
+    } 40% { 
+      -webkit-transform: scale(1.0);
+      transform: scale(1.0);
+    }
+  }

@@ -4,6 +4,7 @@ import Login from "../view/buyer/auth/login.vue";
 import Register from "../view/buyer/auth/register.vue";
 import Logout from "../view/buyer/auth/logout.vue";
 import Profile from "../view/buyer/profile/index.vue";
+import DetailOrder from "../view/buyer/order/detailOrder.vue";
 
 const routes = [
   {
@@ -30,6 +31,11 @@ const routes = [
     path: "/profile",
     name: "profile",
     component: Profile
+  },
+  {
+    path: "/order/:id",
+    name: "order.detail",
+    component: DetailOrder
   }
 ];
 
