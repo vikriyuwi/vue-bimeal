@@ -3,17 +3,47 @@ import { useRouter } from 'vue-router';
 import { ref, onMounted } from 'vue';
 import api from "../../../api";
 import addOrderButton from './addOrderButton.vue';
+import modal from '../components/errorModal.vue';
+import loadingBar from '../../../components/loadingBar.vue';
 
 const router = useRouter();
 
+var account = ref([]);
 var products = ref([]);
+var balance = ref([]);
+var orderNow = ref([]);
+var orderErrors = ref([]);
 var accessToken = localStorage.getItem('token');
 
-const fetchDataProducts = async () => {
+let isLoadingBalance = true;
+let isLoadingOrder = true;
 
+const fetchBalance = async () => {
+    //fetch data 
+    api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+    await api.get('/api/balance')
+    .then(response => {
+        isLoadingBalance = false;
+        balance.value = response.data.data;
+    });
+}
+
+const fetchOrder = async () => {
+    //fetch data 
+    api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+    await api.get('/api/order/now')
+    .then(response => {
+        isLoadingOrder = false;
+        orderNow.value = response.data.data
+    })
+    .catch(error => {
+        console.log(error.data)
+    });
+}
+
+const fetchDataProducts = async () => {
     //fetch data 
     await api.get('/api/product')
-
     .then(response => {
         products.value = response.data.data
     });
@@ -23,14 +53,34 @@ const checkToken = async () => {
     if(localStorage.getItem("token")) {
         api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
         await api.get('/api/login-data')
-        .then(() => {
-
+        .then((response) => {
+            account.value = response.data.data
         }).catch(error => {
             router.push({name:"login"});
         });
     } else {
         router.push({name:"login"});
     }
+}
+
+const afterAddOrder = (data) => {
+    orderNow.value = data
+}
+
+const payOrder = async () => {
+    isLoadingBalance = true;
+    isLoadingOrder = true;
+    //fetch data 
+    api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+    await api.get('/api/order/'+orderNow.value.id+'/pay')
+    .then(() => {
+        fetchBalance()
+        fetchOrder()
+    })
+    .catch(error => {
+        orderErrors.value = error.response.data
+        console.log(orderErrors)
+    });
 }
 
 // const addOrder = async (id) => {
@@ -60,16 +110,22 @@ const checkToken = async () => {
 // }
 
 onMounted(() => {
-    checkToken();
-    fetchDataProducts();
+    checkToken()
+    fetchDataProducts()
+    fetchBalance()
+    fetchOrder()
 });
 </script>
 
 <template>
+<modal v-if="orderErrors.length != 0"></modal>
 <div class="main-page container-fluid d-flex flex-column align-items-center">
     <div class="head-container d-flex px-2">
         <div class="profile-info d-flex flex-column text-light me-auto">
-            <h4>Hi, <b>Vincent</b> 👋</h4>
+            <h4>Hi 
+                <b v-if="account.length == 0"></b>
+                <b v-else>, {{ account.name }}</b>
+                👋</h4>
             <p class="fw-light">What do you crave for?</p>
         </div>
         <div class="notification-button rounded-circle">
@@ -81,7 +137,10 @@ onMounted(() => {
     <div class="balance-container d-flex p-4 rounded-4 shadow-sm">
         <div class="profile-info d-flex flex-column me-auto justify-content-center">
             <p class="fw-light">Balance 💵</p>
-            <h4><b>Rp 100,000</b></h4>
+            <h4>
+                <loadingBar v-if="isLoadingBalance" class="mx-auto"></loadingBar>
+                <b v-else>Rp {{ balance.balance }}</b>
+            </h4>
         </div>
         <div class="topup-btn-container d-flex flex-column align-items-center me-3">
             <div class="notification-button rounded-4">
@@ -100,41 +159,56 @@ onMounted(() => {
 
         </div>
     </div>
-    <div class="status-container p-4 rounded-4 mt-4">
-        <div class="position-relative m-4">
-            <div class="progress" role="progressbar" aria-label="Progress" aria-valuemin="0" aria-valuemax="100">
-              <div class="progress-bar"></div>
+    <div>
+        <div v-if="orderNow" class="status-container p-4 rounded-4 mt-4 m-0">
+            <div v-if="!isLoadingOrder">
+                <div class="position-relative m-4">
+                    <div class="progress" role="progressbar" aria-label="Progress" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar"></div>
+                    </div>
+                    <div class="position-absolute top-0 translate-middle rounded-pill d-flex align-items-center justify-content-center" v-bind:class="{ 'active' : orderNow.status == 'NEW' }" id="state-1">
+                        <i class="fa-solid fa-lg fa-house"></i>
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                    <div class="position-absolute top-0 translate-middle rounded-pill d-flex align-items-center justify-content-center" v-bind:class="{ 'active' : orderNow.status == 'PAID' }" id="state-2">
+                        <i class="fa-solid fa-lg fa-wallet"></i>
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                    <div class="position-absolute top-0 translate-middle rounded-pill d-flex align-items-center justify-content-center" v-bind:class="{ 'active' : orderNow.status == 'PROCESS' }" id="state-3">
+                        <i class="fa-solid fa-lg fa-house"></i>
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                    <div class="position-absolute top-0 translate-middle rounded-pill d-flex align-items-center justify-content-center" v-bind:class="{ 'active' : orderNow.status == 'PICKUP' }" id="state-4">
+                        <i class="fa-solid fa-lg fa-house"></i>
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                    <div class="p-0 position-absolute top-0 translate-middle  rounded-pill d-flex align-items-center justify-content-center" id="state-5">
+                        <i class="fa-solid fa-lg fa-house"></i>
+                    </div>
+                </div>
+                <div class="row status-info p-3">
+                <div class="col-6">
+                    <p class="fw-light mb-2">Your active order status</p>
+                    <h4>
+                        <b v-if="orderNow.status == 'NEW'">Waiting payment</b>
+                        <b v-else-if="orderNow.status == 'PAID'">Waiting merchant</b>
+                        <b v-else-if="orderNow.status == 'PROCESS'">Order is processing</b>
+                        <b v-else-if="orderNow.status == 'PICKUP'">Ready to pickup</b>
+                    </h4>
+                </div>
+                <div class="col-6 d-flex align-items-end justify-content-center">
+                    <button v-if="orderNow.status == 'NEW'" @click="payOrder" href="#" class="btn btn-dark rounded-4 py-3 w-100 text-center">
+                        <i class="fa-solid fa-xl fa-wallet me-2"></i><b>pay now</b>
+                    </button>
+                    <button v-if="orderNow.status == 'PICKUP'" href="#" class="btn btn-dark rounded-4 py-3 w-100 text-center">
+                        <b>pick up</b>
+                    </button>
+                </div>
             </div>
-            <div class="position-absolute top-0 translate-middle rounded-pill d-flex align-items-center justify-content-center" id="state-1">
-                <i class="fa-solid fa-lg fa-house"></i>
-                <i class="fa-solid fa-check"></i>
-            </div>
-            <div class="position-absolute top-0 translate-middle rounded-pill d-flex align-items-center justify-content-center active" id="state-2">
-                <i class="fa-solid fa-lg fa-wallet"></i>
-                <i class="fa-solid fa-check"></i>
-            </div>
-            <div class="position-absolute top-0 translate-middle rounded-pill d-flex align-items-center justify-content-center" id="state-3">
-                <i class="fa-solid fa-lg fa-house"></i>
-                <i class="fa-solid fa-check"></i>
-            </div>
-            <div class="position-absolute top-0 translate-middle rounded-pill d-flex align-items-center justify-content-center" id="state-4">
-                <i class="fa-solid fa-lg fa-house"></i>
-                <i class="fa-solid fa-check"></i>
-            </div>
-            <div class="p-0 position-absolute top-0 translate-middle  rounded-pill d-flex align-items-center justify-content-center" id="state-5">
-                <i class="fa-solid fa-lg fa-house"></i>
-            </div>
-          </div>
-          <div class="row status-info p-3">
-            <div class="col-6">
-                <p class="fw-light mb-2">Your active order status</p>
-                <h4><b>Waiting <br>Payment</b></h4>
-            </div>
-            <div class="col-6 d-flex align-items-end justify-content-center">
-                <a href="#" class="status-btn rounded-4 py-3 w-100 text-center"><i class="fa-solid fa-xl fa-wallet me-2"></i><b>pay now</b></a>
-            </div>
-          </div>
+        </div>
     </div>
+    </div>
+
     <div class="type-container row g-3 mt-3">
         <div class="col-4">
             <button class="type-button rounded-4 py-3 w-100 text-center border-0">
@@ -170,7 +244,7 @@ onMounted(() => {
                 <div class="menu-info text-center mt-3">
                     <p><b>{{ product.name }}</b></p>
                     <p class="fw-light">IDR {{ product.price }}</p>
-                    <addOrderButton :id="product.id" :access-token="accessToken"></addOrderButton>
+                    <addOrderButton :id="product.id" :access-token="accessToken" @order-now="afterAddOrder"></addOrderButton>
                 </div>
             </div>
         </div>

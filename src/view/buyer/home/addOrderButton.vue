@@ -1,7 +1,12 @@
+<script setup>
+import loadingBar from "../../../components/loadingBar.vue"
+</script>
 <template>
-    <button type="button" href="#" class="menu-btn rounded-4 py-3 w-100 text-center border-0 mt-3" @click="placeOrder(id)" :disabled="isLoading">
-        <span v-if="isSuccess">Success!</span>
-        <span v-else-if="isLoading">Loading...</span>
+    <button type="button" href="#" class="menu-btn text-center rounded-4 py-3 px-auto w-100 text-center border-0 mt-3" @click="placeOrder(id)" :disabled="isLoading">
+        <span v-if="isSuccess">
+          <i class="fa-solid fa-check me-2"></i><b>Success!</b>
+        </span>
+        <loadingBar v-else-if="isLoading" class="mx-auto"></loadingBar>
         <span v-else>
             <i class="fa-solid fa-lg fa-cart-plus me-2"></i><b>add to cart</b>
         </span>
@@ -24,7 +29,8 @@ export default {
   data() {
     return {
       isLoading: false,
-      isSuccess: false
+      isSuccess: false,
+      orderNow: null,
     };
   },
   methods: {
@@ -36,10 +42,9 @@ export default {
       formData.append("quantity", 1);
 
       api.defaults.headers.common['Authorization'] = `Bearer ${this.accessToken}`;
-
       try {
         await api.post('/api/order/add', formData);
-        this.isSuccess = true;
+        this.isLoading = true;
       } catch (error) {
         console.error(error);
       } finally {
@@ -49,6 +54,11 @@ export default {
         setTimeout(() => {
           this.isSuccess = false;
         }, 1000);
+        await api.get('/api/order/now')
+        .then(response => {
+            this.orderNow = response.data.data
+        })
+        this.$emit('order-now', this.orderNow);
       }
     }
   }
