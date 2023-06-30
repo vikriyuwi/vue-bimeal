@@ -275,6 +275,7 @@ body .history-page .history-container a .history-card .order-img#order-1 {
   z-index: 3;
 }
 body .history-page .history-container a .history-card .order-img#order-2 {
+  background-color: #F6F6F6;
   left: 3.2rem;
   z-index: 2;
 }

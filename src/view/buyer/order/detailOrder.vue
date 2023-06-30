@@ -80,6 +80,22 @@ function countBill() {
     return total
 }
 
+function getDateTime(timestamp) {
+    // Create a new Date object
+    const date = new Date(timestamp);
+
+    const options = { day: 'numeric', month: 'short', year: 'numeric' };
+    const formattedDate = date.toLocaleDateString('en-US', options);
+
+    const optionsTime = { hour: 'numeric', minute: 'numeric', second: 'numeric' };
+    const formattedTime = date.toLocaleTimeString('en-US', optionsTime);
+
+    // Format the result
+    const result = `${formattedDate} ${formattedTime}`;
+
+    return result
+}
+
 onMounted(() => {
     fetchOrder()
     fetchOrderDetail()
@@ -89,15 +105,15 @@ onMounted(() => {
 <template>
     <div class="ongoing-page container-fluid d-flex flex-column align-items-center">
         <div class="head-container px-2 position-relative">
-            <a href="#" class="back-button">
+            <router-link to="#" @click.native="router.back()" class="back-button">
                 <i class="fa-solid fa-lg fa-chevron-left"></i>
-            </a>
+            </router-link>
             <h4 class="position-absolute top-0 text-center w-100">Your order</h4>
         </div>
         <div class="ongoing-container mt-3">
             <div class="order-detail text-center mt-3 mb-4">
                 <p class="fw-semibold">{{ order.id }}</p>
-                <p class="fw-light mb-5">{{ order.updated_at }}</p>
+                <p class="fw-light mb-5">{{ getDateTime(order.updated_at) }}</p>
                 <div class="status-container my-5">
                     <div class="position-relative m-4">
                         <div class="progress" role="progressbar" aria-label="Progress" aria-valuemin="0" aria-valuemax="100">

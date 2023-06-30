@@ -1,11 +1,10 @@
 <script setup>
 import { useRouter } from 'vue-router';
+import { ref, onMounted } from 'vue';
+import api from "../../../api";
+import navbar from './../components/navbar.vue';
 
 const router = useRouter();
-
-import { ref, onMounted } from 'vue';
-
-import api from "../../../api";
 
 var accessToken = localStorage.getItem('token');
 var account = ref();
@@ -118,67 +117,15 @@ onMounted(() => {
                 </div>
             </div>
             <div class="profile-option mt-4">
-                <router-link to="logout">
-                    <div class="profile-option-item d-flex p-3 border-bottom border-2 align-items-center">
-                        <div class="icon-container p-2 rounded-3 d-flex align-items-center justify-content-center me-3">
-                            <i class="fa-solid fa-right-from-bracket"></i>
-                        </div>
-                        <p class="fw-light me-auto">Log out</p>
-                        <i class="fa-solid fa-lg fa-chevron-right"></i>
+                <div @click="logout()" class="profile-option-item d-flex p-3 border-bottom border-2 align-items-center">
+                    <div class="icon-container p-2 rounded-3 d-flex align-items-center justify-content-center me-3">
+                        <i class="fa-solid fa-right-from-bracket"></i>
                     </div>
-                </router-link>
+                    <p class="fw-light me-auto">Log out</p>
+                    <i class="fa-solid fa-lg fa-chevron-right"></i>
+                </div>
             </div>
         </div>
 </div>
-<div class="footer container-fluid fixed-bottom d-flex justify-content-center">
-      <div class="footer-container rounded-5 shadow-sm mb-3">
-          <div class="footer-row row px-3">
-              <div class="col-3 text-center">
-                  <div class="col-con">
-                      <router-link to="/">
-                        <i class="fa-solid fa-xl fa-house"></i>
-                      </router-link>
-                  </div>
-                  <div class="rounded-5 selec mx-auto "></div>
-              </div>
-              <div class="col-3 text-center">
-                  <div class="col-con">
-                      <a href="#" id="search">
-                          <i class="fa-solid fa-xl fa-magnifying-glass"></i>
-                      </a>
-                  </div>
-                  <div class="rounded-5 selec mx-auto"></div>
-              </div>
-              <div class="col-3 text-center">
-                  <div class="col-con">
-                      <a href="#" id="history">
-                          <i class="fa-solid fa-xl fa-file-lines"></i>
-                      </a>
-                  </div>
-                  <div class="rounded-5 selec mx-auto"></div>
-              </div>
-              <div class="col-3 text-center active">
-                  <div class="col-con">
-                      <router-link to="profile">
-                        <i class="fa-solid fa-xl fa-user"></i>
-                      </router-link>
-                  </div>
-                  <div class="rounded-5 selec mx-auto"></div>
-              </div>
-          </div>
-          <a href="#" class="cart-footer d-flex px-4 align-items-center mt-4">
-              <h4 class="me-auto">Rp 23,000</h4>
-              <i class="fa-solid fa-2xl fa-cart-plus me-2"></i>
-          </a>
-          <a href="#" class="ongoing-footer d-flex px-4 align-items-center mt-4">
-              <i class="fa-solid fa-2xl fa-wallet me-2"></i>
-              <h4 class="me-auto">Pay</h4>
-              <h4>Rp 23,000</h4>
-          </a>
-          <a href="#" class="paid-footer d-flex px-4 align-items-center mt-4">
-              <h4 class="me-auto">See order status</h4>
-              <i class="fa-solid fa-2xl fa-file-lines me-2"></i>
-          </a>
-      </div>
-</div>
+<navbar></navbar>
 </template>

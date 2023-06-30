@@ -3,6 +3,7 @@ import { useRouter } from 'vue-router';
 import { ref, onMounted } from 'vue';
 import api from "../../../api";
 import addOrderButton from './addOrderButton.vue';
+import navbar from './../components/navbar.vue';
 import modal from '../components/errorModal.vue';
 import loadingBar from '../../../components/loadingBar.vue';
 
@@ -54,7 +55,7 @@ const fetchOrder = async () => {
         }
     })
     .catch(error => {
-        console.log(error.data)
+        
     });
 }
 
@@ -248,55 +249,5 @@ onMounted(() => {
         </div>
     </div>
 </div>
-<div class="footer container-fluid fixed-bottom d-flex justify-content-center">
-      <div class="footer-container rounded-5 shadow-sm mb-3">
-          <div class="footer-row row px-3">
-              <div class="col-3 text-center active">
-                  <div class="col-con">
-                      <router-link to="/">
-                        <i class="fa-solid fa-xl fa-house"></i>
-                      </router-link>
-                  </div>
-                  <div class="rounded-5 selec mx-auto "></div>
-              </div>
-              <div class="col-3 text-center">
-                  <div class="col-con">
-                      <a href="#" id="search">
-                          <i class="fa-solid fa-xl fa-magnifying-glass"></i>
-                      </a>
-                  </div>
-                  <div class="rounded-5 selec mx-auto"></div>
-              </div>
-              <div class="col-3 text-center">
-                  <div class="col-con">
-                      <a href="#" id="history">
-                          <i class="fa-solid fa-xl fa-file-lines"></i>
-                      </a>
-                  </div>
-                  <div class="rounded-5 selec mx-auto"></div>
-              </div>
-              <div class="col-3 text-center">
-                  <div class="col-con">
-                      <router-link to="profile">
-                        <i class="fa-solid fa-xl fa-user"></i>
-                      </router-link>
-                  </div>
-                  <div class="rounded-5 selec mx-auto"></div>
-              </div>
-          </div>
-          <a href="#" class="cart-footer d-flex px-4 align-items-center mt-4">
-              <h4 class="me-auto">Rp 23,000</h4>
-              <i class="fa-solid fa-2xl fa-cart-plus me-2"></i>
-          </a>
-          <a href="#" class="ongoing-footer d-flex px-4 align-items-center mt-4">
-              <i class="fa-solid fa-2xl fa-wallet me-2"></i>
-              <h4 class="me-auto">Pay</h4>
-              <h4>Rp 23,000</h4>
-          </a>
-          <a href="#" class="paid-footer d-flex px-4 align-items-center mt-4">
-              <h4 class="me-auto">See order status</h4>
-              <i class="fa-solid fa-2xl fa-file-lines me-2"></i>
-          </a>
-      </div>
-</div>
+<navbar></navbar>
 </template>
