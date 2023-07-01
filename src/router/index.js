@@ -1,17 +1,23 @@
 import { createWebHistory, createRouter } from "vue-router";
-import Home from "../view/buyer/home/index.vue";
 import Login from "../view/buyer/auth/login.vue";
 import Register from "../view/buyer/auth/register.vue";
 import Logout from "../view/buyer/auth/logout.vue";
-import Profile from "../view/buyer/profile/index.vue";
+import Home from "../view/buyer/home/index.vue";
+import Search from '../view/buyer/search/index.vue';
 import DetailOrder from "../view/buyer/order/detailOrder.vue";
 import OrderHistory from "../view/buyer/order/index.vue";
+import Profile from "../view/buyer/profile/index.vue";
 
 const routes = [
   {
     path: "/",
     name: "home",
     component: Home,
+  },
+  {
+    path: "/search",
+    name: "search",
+    component: Search
   },
   {
     path: "/login",

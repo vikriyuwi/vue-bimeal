@@ -26,9 +26,9 @@
               </div>
               <div class="col-3 text-center" v-bind:class="{ 'active': isActive('/search') }">
                   <div class="col-con">
-                      <a href="#" id="search">
-                          <i class="fa-solid fa-xl fa-magnifying-glass"></i>
-                      </a>
+                    <router-link to="search" id="search">
+                        <i class="fa-solid fa-xl fa-magnifying-glass"></i>
+                    </router-link>
                   </div>
                   <div class="rounded-5 selec mx-auto"></div>
               </div>
