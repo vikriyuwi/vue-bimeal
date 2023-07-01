@@ -3,6 +3,7 @@ import { useRouter } from 'vue-router';
 import { ref, onMounted } from 'vue';
 import api from "../../../api";
 import navbar from './../components/navbar.vue';
+import orderitem from './orderItem.vue';
 
 var orders = ref([])
 var orderDetails = ref([])
@@ -102,8 +103,10 @@ onMounted(() => {
                     </a>
                 </div>
             </div>
+
             <router-link :to="{name:'order.detail',params:{id:order.id}}" v-if="orders.length != 0" v-for="(order, index) in orders" :key="index">
-                <div class="history-card bg-white border border-2 border-light-subtle rounded-4 w-100 px-2 mt-3">
+                <orderitem :id="order.id"></orderitem>
+                <!-- <div class="history-card bg-white border border-2 border-light-subtle rounded-4 w-100 px-2 mt-3">
                     <div class="row h-100">
                         <div class="col-6 position-relative">
                             <img src="src/data/orangeJuice.png" alt="" class="order-img img-fluid rounded-circle position-absolute" id="order-1">
@@ -124,7 +127,7 @@ onMounted(() => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </router-link>
             <a href="#">
                 

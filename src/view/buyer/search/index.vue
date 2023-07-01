@@ -4,7 +4,7 @@ import { ref, onMounted, watch } from 'vue';
 import api from "../../../api";
 import navbar from './../components/navbar.vue';
 import addOrderButton from '../home/addOrderButton.vue';
-import loadingBar from '../../../components/loadingBar.vue';
+
 
 var accessToken = localStorage.getItem('token')
 var account = ref([])
@@ -38,7 +38,6 @@ function performSearch() {
     filteredProducts.value = products.value.filter(item =>
         item.name.toLowerCase().includes(search.value.toLowerCase())
     );
-    console.log(search.value)
 }
 
 onMounted(() => {
