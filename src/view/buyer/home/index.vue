@@ -25,8 +25,8 @@ const fetchBalance = async () => {
     api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
     await api.get('/api/balance')
     .then(response => {
-        isLoadingBalance = false;
         balance.value = response.data.data;
+        isLoadingBalance = false;
     });
 }
 
@@ -68,13 +68,14 @@ const fetchDataProducts = async () => {
 }
 
 const checkToken = async () => {
-    if(localStorage.getItem("token")) {
+    if(localStorage.getItem("token") != null ) {
         api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
         await api.get('/api/login-data')
         .then((response) => {
             account.value = response.data.data
         }).catch(error => {
-            router.push({name:"login"});
+            localStorage.removeItem('token')
+            router.push({name:"login"})
         });
     } else {
         router.push({name:"login"});
@@ -154,9 +155,9 @@ onMounted(() => {
         </div>
         <div class="topup-btn-container d-flex flex-column align-items-center">
             <div class="notification-button rounded-4">
-                <a href="#" class="w-100 h-100 d-flex justify-content-center align-items-center">
+                <router-link to="balance" class="w-100 h-100 d-flex justify-content-center align-items-center">
                     <i class="fa-regular fa-xl fa-clock"></i>
-                </a>
+                </router-link>
             </div>
 
         </div>
@@ -169,23 +170,24 @@ onMounted(() => {
                         <div class="progress-bar" :style="{width:orderProgress}"></div>
                     </div>
                     <div class="position-absolute top-0 translate-middle rounded-pill d-flex align-items-center justify-content-center" v-bind:class="{ 'active' : orderNow.status == 'NEW' }" id="state-1">
-                        <i class="fa-solid fa-lg fa-house"></i>
+                        <i class="fa-solid fa-lg fa-wallet fa-beat-fade"></i>
                         <i class="fa-solid fa-check"></i>
                     </div>
                     <div class="position-absolute top-0 translate-middle rounded-pill d-flex align-items-center justify-content-center" v-bind:class="{ 'active' : orderNow.status == 'PAID' }" id="state-2">
-                        <i class="fa-solid fa-lg fa-wallet"></i>
+                        <i class="fa-solid fa-lg fa-shop fa-beat-fade"></i>
                         <i class="fa-solid fa-check"></i>
                     </div>
                     <div class="position-absolute top-0 translate-middle rounded-pill d-flex align-items-center justify-content-center" v-bind:class="{ 'active' : orderNow.status == 'PROCESS' }" id="state-3">
-                        <i class="fa-solid fa-lg fa-house"></i>
+                        <i class="fa-solid fa-lg fa-fan fa-spin fa-spin-reverse"></i>
                         <i class="fa-solid fa-check"></i>
                     </div>
                     <div class="position-absolute top-0 translate-middle rounded-pill d-flex align-items-center justify-content-center" v-bind:class="{ 'active' : orderNow.status == 'PICKUP' }" id="state-4">
-                        <i class="fa-solid fa-lg fa-house"></i>
+                        <i class="fa-solid fa-lg fa-boxes-packing fa-bounce"></i>
                         <i class="fa-solid fa-check"></i>
                     </div>
-                    <div class="p-0 position-absolute top-0 translate-middle  rounded-pill d-flex align-items-center justify-content-center" id="state-5">
-                        <i class="fa-solid fa-lg fa-house"></i>
+                    <div class="p-0 position-absolute top-0 translate-middle  rounded-pill d-flex align-items-center justify-content-center" v-bind:class="{ 'active' : orderNow.status == 'DONE' }" id="state-5">
+                        <i class="fa-solid fa-lg fa-check"></i>
+                        <i class="fa-solid fa-check"></i>
                     </div>
                 </div>
                 <div class="row status-info p-3">

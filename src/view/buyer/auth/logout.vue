@@ -13,14 +13,18 @@
     const router = useRouter();
 
     const logout = async () => {
-        api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-        await api.get('/api/logout')
-        .then(() => {
-            localStorage.removeItem("token");
+        if(localStorage.getItem("token") != null) {
+            api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+            await api.get('/api/logout')
+            .then(response => {
+                localStorage.removeItem('token')
+                router.push({name:"login"});
+            }).catch(error => {
+                router.push({name:"login"});
+            });
+        } else {
             router.push({name:"login"});
-        }).catch(() => {
-            router.push({name:"login"});
-        });
+        }
     }
     
     onMounted(() => {

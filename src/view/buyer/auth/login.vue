@@ -17,16 +17,15 @@
     const errors = ref([]);
 
     const checkToken = async () => {
-        if(localStorage.getItem("token")) {
+        if(localStorage.getItem("token") != null) {
             api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
             await api.get('/api/login-data')
             .then(response => {
-                router.push({name:"home"});
+                router.push({name:"home"})
             }).catch(error => {
-                router.push({name:"login"});
+                localStorage.removeItem('token')
+                router.push({name:"login"})
             });
-        } else {
-            router.push({name:"login"});
         }
     }
 
@@ -70,6 +69,10 @@
         </div>
     </div>
     <div class="status-container p-4 rounded-4 mt-4 text-dark">
+        <h1 class="fw-bolder">
+            Login
+        </h1>
+        <p class="mb-4">Want to make a new account? <router-link to="register">Register here</router-link></p>
         <div v-if="errors.length != 0" class="alert alert-danger alert-dismissible fade show" role="alert">
             <strong>{{errors.message}}</strong> You should check in on some of those fields below.
         </div>

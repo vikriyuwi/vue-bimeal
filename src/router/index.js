@@ -3,6 +3,7 @@ import Login from "../view/buyer/auth/login.vue";
 import Register from "../view/buyer/auth/register.vue";
 import Logout from "../view/buyer/auth/logout.vue";
 import Home from "../view/buyer/home/index.vue";
+import Balance from "../view/buyer/balance/index.vue";
 import Search from '../view/buyer/search/index.vue';
 import DetailOrder from "../view/buyer/order/detailOrder.vue";
 import OrderHistory from "../view/buyer/order/index.vue";
@@ -13,6 +14,11 @@ const routes = [
     path: "/",
     name: "home",
     component: Home,
+  },
+  {
+    path: "/balance",
+    name: "balance",
+    component: Balance
   },
   {
     path: "/search",

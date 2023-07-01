@@ -107,7 +107,7 @@ body .main-page .status-container .position-absolute {
 body .main-page .status-container .position-absolute i {
   color: #FFFFFF;
 }
-body .main-page .status-container .position-absolute .fa-house, body .main-page .status-container .position-absolute .fa-wallet, body .main-page .status-container .position-absolute .fa-bag-shopping {
+body .main-page .status-container .position-absolute .fa-shop, body .main-page .status-container .position-absolute .fa-wallet, body .main-page .status-container .position-absolute .fa-bag-shopping, body .main-page .status-container .position-absolute .fa-fan, body .main-page .status-container .position-absolute .fa-boxes-packing, body .main-page .status-container .position-absolute .fa-circle-check {
   display: none;
 }
 body .main-page .status-container .position-absolute#state-1 {
@@ -129,7 +129,7 @@ body .main-page .status-container .position-absolute.active {
   width: 3.2rem;
   height: 3.2rem;
 }
-body .main-page .status-container .position-absolute.active .fa-house, body .main-page .status-container .position-absolute.active .fa-wallet, body .main-page .status-container .position-absolute.active .fa-bag-shopping {
+body .main-page .status-container .position-absolute.active .fa-shop, body .main-page .status-container .position-absolute.active .fa-wallet, body .main-page .status-container .position-absolute.active .fa-bag-shopping, body .main-page .status-container .position-absolute.active .fa-fan, body .main-page .status-container .position-absolute.active .fa-boxes-packing, body .main-page .status-container .position-absolute.active .fa-circle-check {
   display: block;
 }
 body .main-page .status-container .position-absolute.active .fa-check {
@@ -433,7 +433,7 @@ body .ongoing-page .ongoing-container .position-absolute {
 body .ongoing-page .ongoing-container .position-absolute i {
   color: #FFFFFF;
 }
-body .ongoing-page .ongoing-container .position-absolute .fa-house, body .ongoing-page .ongoing-container .position-absolute .fa-wallet, body .ongoing-page .ongoing-container .position-absolute .fa-bag-shopping {
+body .ongoing-page .ongoing-container .position-absolute .fa-shop, body .ongoing-page .ongoing-container .position-absolute .fa-wallet, body .ongoing-page .ongoing-container .position-absolute .fa-bag-shopping, body .ongoing-page .ongoing-container .position-absolute .fa-fan, body .ongoing-page .ongoing-container .position-absolute .fa-boxes-packing, body .ongoing-page .ongoing-container .position-absolute .fa-circle-check {
   display: none;
 }
 body .ongoing-page .ongoing-container .position-absolute#state-1 {
@@ -455,7 +455,7 @@ body .ongoing-page .ongoing-container .position-absolute.active {
   width: 3.2rem;
   height: 3.2rem;
 }
-body .ongoing-page .ongoing-container .position-absolute.active .fa-house, body .ongoing-page .ongoing-container .position-absolute.active .fa-wallet, body .ongoing-page .ongoing-container .position-absolute.active .fa-bag-shopping {
+body .ongoing-page .ongoing-container .position-absolute.active .fa-shop, body .ongoing-page .ongoing-container .position-absolute.active .fa-wallet, body .ongoing-page .ongoing-container .position-absolute.active .fa-bag-shopping, body .ongoing-page .ongoing-container .position-absolute.active .fa-fan, body .ongoing-page .ongoing-container .position-absolute.active .fa-boxes-packing, body .ongoing-page .ongoing-container .position-absolute.active .fa-circle-check {
   display: block;
 }
 body .ongoing-page .ongoing-container .position-absolute.active .fa-check {

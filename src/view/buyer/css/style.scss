@@ -41,7 +41,7 @@ $green: #61A01F;
         i{
             color: $icon-color;
         }
-        .fa-house, .fa-wallet, .fa-bag-shopping{
+        .fa-shop, .fa-wallet, .fa-bag-shopping, .fa-fan, .fa-boxes-packing, .fa-circle-check{
             display: none;
         }
         &#state-1{
@@ -62,7 +62,7 @@ $green: #61A01F;
        &.active{
         width: 3.2rem;
         height: 3.2rem;
-        .fa-house, .fa-wallet, .fa-bag-shopping{
+        .fa-shop, .fa-wallet, .fa-bag-shopping, .fa-fan, .fa-boxes-packing, .fa-circle-check{
             display: block;
         }
         .fa-check{

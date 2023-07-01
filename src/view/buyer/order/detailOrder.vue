@@ -117,28 +117,29 @@ onMounted(() => {
                 <div class="status-container my-5">
                     <div class="position-relative m-4">
                         <div class="progress" role="progressbar" aria-label="Progress" aria-valuemin="0" aria-valuemax="100">
-                          <div class="progress-bar" :style="{width:orderProgress}"></div>
+                            <div class="progress-bar" :style="{width:orderProgress}"></div>
                         </div>
                         <div class="position-absolute top-0 translate-middle rounded-pill d-flex align-items-center justify-content-center" v-bind:class="{ 'active' : order.status == 'NEW' }" id="state-1">
-                            <i class="fa-solid fa-lg fa-house"></i>
+                            <i class="fa-solid fa-lg fa-wallet fa-beat-fade"></i>
                             <i class="fa-solid fa-check"></i>
                         </div>
                         <div class="position-absolute top-0 translate-middle rounded-pill d-flex align-items-center justify-content-center" v-bind:class="{ 'active' : order.status == 'PAID' }" id="state-2">
-                            <i class="fa-solid fa-lg fa-house"></i>
+                            <i class="fa-solid fa-lg fa-shop fa-beat-fade"></i>
                             <i class="fa-solid fa-check"></i>
                         </div>
                         <div class="position-absolute top-0 translate-middle rounded-pill d-flex align-items-center justify-content-center" v-bind:class="{ 'active' : order.status == 'PROCESS' }" id="state-3">
-                            <i class="fa-solid fa-lg fa-house"></i>
+                            <i class="fa-solid fa-lg fa-fan fa-spin fa-spin-reverse"></i>
                             <i class="fa-solid fa-check"></i>
                         </div>
                         <div class="position-absolute top-0 translate-middle rounded-pill d-flex align-items-center justify-content-center" v-bind:class="{ 'active' : order.status == 'PICKUP' }" id="state-4">
-                            <i class="fa-solid fa-lg fa-bag-shopping"></i>
+                            <i class="fa-solid fa-lg fa-boxes-packing fa-bounce"></i>
                             <i class="fa-solid fa-check"></i>
                         </div>
                         <div class="p-0 position-absolute top-0 translate-middle  rounded-pill d-flex align-items-center justify-content-center" v-bind:class="{ 'active' : order.status == 'DONE' }" id="state-5">
-                            <i class="fa-solid fa-lg fa-house"></i>
+                            <i class="fa-solid fa-lg fa-circle-check fa-beat-fade"></i>
+                            <i class="fa-solid fa-check"></i>
                         </div>
-                      </div>
+                    </div>
                 </div>
                 <p class="your-order fw-light mt-5 mb-3">Your active order status</p>
                 <div v-if="order.status == 'NEW'">
