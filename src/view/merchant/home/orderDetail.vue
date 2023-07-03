@@ -6,6 +6,8 @@ import api from '../../../api';
 const router = useRouter()
 const route = useRoute()
 var accessToken = localStorage.getItem('token')
+var account = ref([])
+
 var isLoading = true
 var balance = ref([])
 var order = ref([])
@@ -13,18 +15,27 @@ var orderProgress = '0%';
 var orderDetails = ref([])
 var bill = ref([])
 
-const fetchBalance = async () => {
-    //fetch data 
-    api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-    await api.get('/api/balance')
-    .then(response => {
-        balance.value = response.data.data;
-    });
+const errors = ref([])
+const code = ref([])
+
+const checkToken = async () => {
+    if(accessToken != null) {
+        api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+        await api.get('/api/merchant/login-data')
+        .then(response => {
+            account.value = response.data.data
+        }).catch(error => {
+            localStorage.removeItem('token')
+            router.push({name:"merchant.login"})
+        });
+    } else {
+        router.push({name:"merchant.login"})
+    }
 }
 
 const fetchOrderDetail = async () => {
     api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-    await api.get('/api/order/'+route.params.id+'/detail')
+    await api.get('/api/merchant/order/'+route.params.id+'/detail')
     .then(response => {
         isLoading = false;
         orderDetails.value = response.data.data;
@@ -34,7 +45,7 @@ const fetchOrderDetail = async () => {
 
 const fetchOrder = async () => {
     api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-    await api.get('/api/order/'+route.params.id)
+    await api.get('/api/merchant/order/'+route.params.id)
     .then(response => {
         isLoading = false;
         order.value = response.data.data;
@@ -57,19 +68,6 @@ const fetchOrder = async () => {
     });
 }
 
-const payOrder = async () => {
-    //fetch data 
-    api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-    await api.get('/api/order/'+order.value.id+'/pay')
-    .then(() => {
-        fetchBalance()
-        fetchOrder()
-    })
-    .catch(error => {
-        // console.log(error.response.data)
-    });
-}
-
 function countBill() {
     const details = orderDetails.value
     var total = 0;
@@ -78,6 +76,15 @@ function countBill() {
         // console.log(details[i].total_price)
     }
     return total
+}
+
+const updateOrder = async () => {
+    api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+    await api.get('/api/merchant/order/'+route.params.id+'/update')
+    .then(response => {
+        fetchOrder()
+        fetchOrderDetail()
+    })
 }
 
 function getDateTime(timestamp) {
@@ -96,10 +103,26 @@ function getDateTime(timestamp) {
     return result
 }
 
+const storeServeOrder = async () => {
+    let formData = new FormData();
+    
+    formData.append('_method', 'PUT')
+    formData.append("code", code.value);
+
+    await api.post('/api/merchant/order/'+route.params.id+'/serve', formData)
+    .then(response => {
+        fetchOrder()
+        fetchOrderDetail()
+    })
+    .catch((error) => {
+        errors.value = error.response.data;
+    });
+};
+
 onMounted(() => {
+    checkToken()
     fetchOrder()
     fetchOrderDetail()
-    fetchBalance()
 })
 </script>
 <template>
@@ -141,24 +164,34 @@ onMounted(() => {
                         </div>
                     </div>
                 </div>
+                <div v-if="errors.length != 0" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>{{errors.message}}</strong> You should check in on some of those fields below.
+                </div>
                 <p class="your-order fw-light mt-5 mb-3">Your active order status</p>
                 <div v-if="order.status == 'NEW'">
                     <p class="status-text lh-1">Waiting <br>payment</p>
                 </div>
                 <div v-if="order.status == 'PAID'">
-                    <p class="status-text lh-1">Waiting <br>merchant</p>
+                    <p class="status-text lh-1">Order ready <br>to process</p>
+                    <button @click="updateOrder" class="btn btn-dark rounded-4 p-3 mt-3"><b>Update</b></button>
                 </div>
                 <div v-if="order.status == 'PROCESS'">
                     <p class="status-text lh-1">Order is<br>processing</p>
+                    <button @click="updateOrder" class="btn btn-dark rounded-4 p-3 mt-3"><b>Update</b></button>
                 </div>
                 <div v-if="order.status == 'PICKUP'">
                     <p class="status-text lh-1">Ready <br>to pick up</p>
                     <div class="row mt-4">
                         <div class="col-3"></div>
-                        <div class="col-6">
-                            <div class="btn btn-dark rounded-5 text-center py-3 w-100"><b>{{ order.code }}</b></div>
+                        <div class="col-6 text-center">
+                            <form class="d-flex border border-2 rounded-pill border-dark px-4" @submit.prevent="storeServeOrder()">
+                                <div class="form-floating w-100">
+                                    <input v-model="code" type="text" class="form-control border-0" id="floatingInput" placeholder="xxxxxx">
+                                    <label for="floatingInput"><p class="fw-light">Enter code</p></label>
+                                </div>
+                                <button type="submit" class="bg-white border-0"><i class="fa-solid fa-lg fa-circle-arrow-right"></i></button>
+                            </form> 
                         </div>
-                        <p class="your-order fw-light mt-2">Show this code to merchant to pick up your order</p>
                     </div>
                 </div>
                 <div v-if="order.status == 'DONE'">
@@ -170,14 +203,8 @@ onMounted(() => {
                 <img :src="'https://fikriyuwi.com/bimeal/assets/products/'+detail.product.image" alt="" class="img-fluid rounded-3 me-4">
                 <div class="order-info d-flex flex-column">
                     <p class="fw-light mt-auto mb-2">{{ detail.product.name }}</p>
-                    <div class="plus-minus p-2 rounded-4 d-flex mb-auto w-100">
-                        <div class="plus-minus-button rounded-3 d-flex align-items-center justify-content-center me-auto">
-                            <i class="fa-solid fa-minus"></i>
-                        </div>
-                        <p class="counter d-flex align-items-center mx-4">{{ detail.quantity }}</p>
-                        <div class="plus-minus-button rounded-3 d-flex align-items-center justify-content-center ms-auto">
-                            <i class="fa-solid fa-plus"></i>
-                        </div>
+                    <div class="plus-minus p-2 text-center rounded-4 mb-auto">
+                        <p class="counter mx-4">{{ detail.quantity }}</p>
                     </div>
                 </div>
                 <p class="ms-auto fw-semibold">Rp {{ detail.total_price }}</p>
@@ -204,12 +231,6 @@ onMounted(() => {
                     <span v-else>{{ bill }}</span>
                 </h4>
                 <p v-if="order.payment != null" class="fw-light text-sm">Paid at : <span v-if="order.length != 0">{{ getDateTime(order.payment.updated_at) }}</span></p>
-            </div>
-            <div v-if="order.status == 'NEW'" class="row mt-4 my-5">
-                <b>Your balance : Rp <span v-if="balance">{{ balance.balance }}</span></b>
-                <button @click="payOrder" href="#" class="btn btn-dark rounded-4 py-3 w-100 text-center">
-                    <i class="fa-solid fa-xl fa-wallet me-2"></i><b>pay now</b>
-                </button>
             </div>
         </div>
     </div>

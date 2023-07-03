@@ -6,6 +6,7 @@ import addOrderButton from './addOrderButton.vue';
 import navbar from './../components/navbar.vue';
 import modal from '../components/errorModal.vue';
 import loadingBar from '../../../components/loadingBar.vue';
+import headBg from '../components/headBg.vue';
 
 const router = useRouter();
 
@@ -121,6 +122,7 @@ onMounted(() => {
 </script>
 
 <template>
+<headBg></headBg>
 <modal v-if="orderErrors.length != 0"></modal>
 <div class="main-page container-fluid d-flex flex-column align-items-center">
     <div class="head-container d-flex px-2">
@@ -147,10 +149,9 @@ onMounted(() => {
         </div>
         <div class="topup-btn-container d-flex flex-column align-items-center me-3">
             <div class="notification-button rounded-4">
-                <a href="#" class="w-100 h-100 d-flex justify-content-center align-items-center">
+                <router-link to="balance/topup" class="w-100 h-100 d-flex justify-content-center align-items-center">
                     <i class="fa-regular fa-xl fa-plus"></i>
-                    
-                </a>
+                </router-link>
             </div>
         </div>
         <div class="topup-btn-container d-flex flex-column align-items-center">

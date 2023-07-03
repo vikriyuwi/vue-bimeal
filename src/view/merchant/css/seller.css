@@ -1,0 +1,409 @@
+@keyframes active-nav {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 15%;
+  }
+}
+body {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #F6F6F6;
+}
+body h4 {
+  font-size: 1.5em;
+  margin-bottom: 0;
+}
+body p {
+  font-size: 1rem;
+  margin-bottom: 0;
+}
+body a {
+  color: #202020;
+  text-decoration: none;
+}
+body .head-background {
+  width: max(425px, 100%);
+  height: 8rem;
+  position: absolute;
+  top: -2rem;
+  right: 0;
+  border-radius: 0 0 3rem 3rem;
+  background-color: #7E6DE8;
+  z-index: -1;
+}
+body .main-page {
+  margin-bottom: 6rem;
+  margin-bottom: 12rem !important;
+}
+body .main-page > div {
+  width: min(100%, 425px);
+}
+body .main-page .head-container {
+  margin-top: 1.5rem;
+  color: #F6F6F6;
+}
+body .main-page .head-container .notification-button {
+  background-color: rgba(246, 246, 246, 0.5);
+  overflow: hidden;
+  height: 3rem;
+  width: 3rem;
+}
+body .main-page .head-container .notification-button a {
+  text-decoration: none;
+  color: #F6F6F6;
+}
+body .main-page .head-container .notification-button a i {
+  transition: 0.3s;
+}
+body .main-page .head-container .notification-button a:active i {
+  rotate: 10deg;
+  transition: 0.3s;
+}
+body .main-page .type-container .type-button {
+  background-color: #F6F6F6;
+  transition: 0.3s;
+}
+body .main-page .type-container .type-button i {
+  transition: 0.3s;
+}
+body .main-page .type-container .type-button:active {
+  background-color: #202020;
+  color: #FFFFFF;
+  scale: 95%;
+  transition: 0.3s;
+}
+body .main-page .type-container .type-button:active i {
+  transition: 0.3s;
+  color: #FFFFFF !important;
+}
+body .main-page .type-container .type-button.active {
+  background-color: #202020;
+  color: #FFFFFF;
+}
+body .main-page .order-card {
+  color: #202020;
+}
+body .main-page .order-card img {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+body .main-page .order-card a {
+  color: #8D8D8D !important;
+  transition: 0.3s;
+}
+body .main-page .order-card a:active {
+  transition: 0.3s;
+  scale: 90%;
+}
+body .main-page .order-card .order-item {
+  background-color: #F6F6F6;
+}
+body .main-page .order-card .btn {
+  transition: 0.3s;
+}
+body .main-page .order-card .btn:active {
+  transition: 0.3s;
+  scale: 95%;
+}
+body .main-page .order-card .btn.btn-accept {
+  color: #FFFFFF !important;
+  background-color: #7E6DE8;
+}
+body .main-page .order-card.past-order {
+  height: 13rem;
+}
+body .main-page .order-card.past-order .order-img {
+  width: 3.2rem;
+  height: 3.2rem;
+}
+body .main-page .order-card.past-order .order-img#order-1 {
+  left: 0;
+  z-index: 3;
+}
+body .main-page .order-card.past-order .order-img#order-2 {
+  left: 1.6rem;
+  z-index: 2;
+}
+body .main-page .order-card.past-order .order-img#order-3 {
+  background-color: #F6F6F6;
+  left: 3.2rem;
+  z-index: 1;
+}
+body .main-page .order-card.past-order .order-txt {
+  left: 0;
+  top: 3.8rem;
+}
+body .main-page .order-card.past-order .rounded-pill {
+  color: #FFFFFF;
+  right: 0;
+  top: 3.7rem;
+}
+body .menu-page {
+  margin-bottom: 6rem;
+}
+body .menu-page > div {
+  width: min(100%, 425px);
+}
+body .menu-page .head-container {
+  margin-top: 1.5rem;
+  color: #F6F6F6;
+}
+body .menu-page .head-container .notification-button {
+  background-color: rgba(246, 246, 246, 0.5);
+  overflow: hidden;
+  height: 3rem;
+  width: 3rem;
+}
+body .menu-page .head-container .notification-button a {
+  text-decoration: none;
+  color: #F6F6F6;
+}
+body .menu-page .head-container .notification-button a i {
+  transition: 0.3s;
+}
+body .menu-page .head-container .notification-button a:active i {
+  rotate: 10deg;
+  transition: 0.3s;
+}
+body .menu-page .type-container .type-button {
+  background-color: #F6F6F6;
+  transition: 0.3s;
+}
+body .menu-page .type-container .type-button i {
+  transition: 0.3s;
+}
+body .menu-page .type-container .type-button:active {
+  background-color: #202020;
+  color: #FFFFFF;
+  scale: 95%;
+  transition: 0.3s;
+}
+body .menu-page .type-container .type-button:active i {
+  transition: 0.3s;
+  color: #FFFFFF !important;
+}
+body .menu-page .type-container .type-button.active {
+  background-color: #202020;
+  color: #FFFFFF;
+}
+body .menu-page .menu-container .card-img {
+  position: relative;
+}
+body .menu-page .menu-container .card-img i {
+  color: #303030;
+  position: absolute;
+  z-index: 2;
+  top: 12%;
+  left: 82%;
+}
+body .menu-page .menu-container .menu-info {
+  color: #202020;
+}
+body .menu-page .menu-container .menu-info .form-check-input {
+  width: 55px;
+  height: 25px;
+}
+body .menu-page .menu-container .menu-info .form-check-input:checked {
+  background-color: #61A01F !important;
+  border: none;
+}
+body .menu-page .menu-container .menu-info .menu-btn {
+  background-color: #202020;
+  color: #FFFFFF;
+  transition: 0.3s;
+}
+body .menu-page .menu-container .menu-info .menu-btn:active {
+  scale: 95%;
+  transition: 0.3s;
+}
+body .ongoing-page {
+  margin-bottom: 6rem;
+  color: #202020;
+  margin-top: 1.5rem;
+}
+body .ongoing-page > div {
+  width: min(100%, 425px);
+}
+body .ongoing-page a {
+  color: #202020;
+}
+body .ongoing-page .ongoing-container .progress {
+  height: 5px;
+  background-color: #303030;
+}
+body .ongoing-page .ongoing-container .progress .progress-bar {
+  background-color: #7E6DE8;
+  width: 75%;
+}
+body .ongoing-page .ongoing-container .position-absolute {
+  margin-top: 2px;
+  width: 1.8rem;
+  height: 1.8rem;
+  background-color: #7E6DE8;
+}
+body .ongoing-page .ongoing-container .position-absolute i {
+  color: #FFFFFF;
+}
+body .ongoing-page .ongoing-container .position-absolute .fa-house, body .ongoing-page .ongoing-container .position-absolute .fa-wallet, body .ongoing-page .ongoing-container .position-absolute .fa-bag-shopping {
+  display: none;
+}
+body .ongoing-page .ongoing-container .position-absolute#state-1 {
+  left: 0;
+}
+body .ongoing-page .ongoing-container .position-absolute#state-2 {
+  left: 25%;
+}
+body .ongoing-page .ongoing-container .position-absolute#state-3 {
+  left: 50%;
+}
+body .ongoing-page .ongoing-container .position-absolute#state-4 {
+  left: 75%;
+}
+body .ongoing-page .ongoing-container .position-absolute#state-5 {
+  left: 100%;
+}
+body .ongoing-page .ongoing-container .position-absolute.active {
+  width: 3.2rem;
+  height: 3.2rem;
+}
+body .ongoing-page .ongoing-container .position-absolute.active .fa-house, body .ongoing-page .ongoing-container .position-absolute.active .fa-wallet, body .ongoing-page .ongoing-container .position-absolute.active .fa-bag-shopping {
+  display: block;
+}
+body .ongoing-page .ongoing-container .position-absolute.active .fa-check {
+  display: none;
+}
+body .ongoing-page .ongoing-container .position-absolute.active ~ .position-absolute {
+  background-color: #303030;
+}
+body .ongoing-page .ongoing-container .position-absolute.active ~ .position-absolute .fa-check {
+  display: none;
+}
+body .ongoing-page .ongoing-container .your-order {
+  font-size: 0.8rem !important;
+}
+body .ongoing-page .ongoing-container .status-text {
+  font-size: 1.8rem;
+  color: #7E6DE8;
+  font-weight: 800;
+}
+body .ongoing-page .ongoing-container .order-list img {
+  width: 6rem;
+  height: 6rem;
+}
+body .ongoing-page .ongoing-container .order-list .plus-minus {
+  background-color: #F6F6F6;
+}
+body .ongoing-page .ongoing-container .order-list .plus-minus .plus-minus-button {
+  background-color: #202020;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+body .ongoing-page .ongoing-container .order-list .plus-minus .plus-minus-button i {
+  color: #FFFFFF;
+}
+body .ongoing-page .ongoing-container .promo-code {
+  background-color: #E2DDFF;
+}
+body .ongoing-page .ongoing-container .price-card {
+  background-color: #7E6DE8;
+  color: #FFFFFF;
+}
+body .ongoing-page .ongoing-container .pick-btn {
+  width: 12rem;
+  background-color: #202020;
+  color: #FFFFFF;
+  transition: 0.3s;
+  font-size: 1.5rem;
+}
+body .ongoing-page .ongoing-container .pick-btn:active {
+  scale: 80% !important;
+  transition: 0.3s;
+}
+body .edit-menu-container {
+  margin-bottom: 6rem;
+}
+body .edit-menu-container > div {
+  width: min(100%, 425px);
+}
+body .edit-menu-container .head-container h4 {
+  color: #202020;
+}
+body .edit-menu-container .head-container a i {
+  transition: 0.3s;
+}
+body .edit-menu-container .head-container a:active i {
+  scale: 80%;
+  transition: 0.3s;
+}
+body .edit-menu-container form {
+  width: min(100%, 425px);
+}
+body .edit-menu-container form .profile-card {
+  background-color: #F6F6F6;
+  color: #202020;
+  margin-top: 4rem;
+}
+body .edit-menu-container form .profile-card img {
+  height: 8rem;
+  width: 8rem;
+  margin-top: -5rem;
+}
+body .edit-menu-container form button {
+  background-color: #7E6DE8;
+  color: #FFFFFF;
+}
+body .edit-menu-container form button:hover {
+  background-color: #584ca2;
+}
+body .footer-container {
+  background-color: #202020;
+  width: min(425px, 100%);
+  height: 4.5rem;
+  overflow: hidden;
+}
+body .footer-container a {
+  text-decoration: none;
+  color: #FFFFFF;
+}
+body .footer-container .col-4 {
+  padding-top: 1.2rem;
+}
+body .footer-container .col-4.active a i {
+  color: #FFFFFF;
+  scale: 120% !important;
+}
+body .footer-container .col-4.active .selec {
+  animation: active-nav 0.1s ease-in-out;
+  animation-fill-mode: forwards;
+}
+body .footer-container .col-4 .col-con {
+  transition: 0.3s;
+  margin-bottom: 0.75rem;
+}
+body .footer-container .col-4 .col-con a {
+  text-decoration: none;
+  color: #8D8D8D;
+  padding-top: 24px;
+}
+body .footer-container .col-4 .col-con a i {
+  transition: 0.3s;
+}
+body .footer-container .col-4 .col-con a:active i {
+  scale: 80%;
+  transition: 0.3s;
+}
+body .footer-container .col-4 .selec {
+  background-color: #7E6DE8;
+  width: 0;
+  height: 0.2rem;
+}
+body .addbtn-container {
+  text-decoration: none;
+  color: #FFFFFF;
+  background-color: #202020;
+  width: min(425px, 100%);
+  height: 4.5rem;
+}/*# sourceMappingURL=seller.css.map */

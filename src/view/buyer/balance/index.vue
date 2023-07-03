@@ -72,53 +72,41 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="main-page container-fluid d-flex flex-column align-items-center">
-        <div class="head-container px-2 position-relative">
-            <router-link to="#" @click.native="router.back()" class="back-button link-dark">
-                <i class="fa-solid fa-lg fa-chevron-left"></i>
-            </router-link>
-            <h4 class="position-absolute top-0 text-center w-100 text-dark">Balance</h4>
-        </div>
-        <div class="ongoing-container mt-3">
-            <div class="balance-container d-flex p-4 rounded-4 shadow-sm">
-                <div class="profile-info d-flex flex-column me-auto justify-content-center">
-                    <p class="fw-light">Balance 💵</p>
-                    <h4>
-                        <b v-if="!isLoadingBalance">Rp {{ balance.balance }}</b>
-                        <loadingBar v-else  class="mx-auto"></loadingBar>
-                    </h4>
-                </div>
-                <div class="topup-btn-container d-flex flex-column align-items-center me-3">
-                    <div class="notification-button rounded-4">
-                        <a href="#" class="w-100 h-100 d-flex justify-content-center align-items-center">
-                            <i class="fa-regular fa-xl fa-plus"></i>
-                        </a>
+    <div class="transactions-page container-fluid d-flex flex-column align-items-center">
+        <div class="transactions-container">
+            <div class="head-container px-2 d-flex mt-3 mb-4">
+                <router-link to="#" @click.native="router.back()" class="back-button">
+                    <i class="fa-solid fa-lg fa-chevron-left"></i>
+                </router-link>
+                <h4 class="mx-auto">Transaction history</h4>
+            </div>
+            <div class="transaction-history mt-4">
+                <div class="transaction-item d-flex py-3 border-bottom border-1 align-items-center" v-if="balanceHistory.length != 0" v-for="(item, indedx) in balanceHistory" :key="index">
+                    <div v-if="item.desc == 'TOPUP'" class="icon-container-green p-3 rounded-circle d-flex align-items-center justify-content-center me-3">
+                        <div class="container-layer-green rounded-3 d-flex align-items-center justify-content-center p-2">
+                            <i class="fa-solid fa-plus"></i>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="container text-dark py-4">
-            <div class="row mb-4">
-                <h4 class="text-bolder"><b>History</b></h4>
-            </div>
-            <div class="row" v-if="balanceHistory.length != 0" v-for="(item, indedx) in balanceHistory" :key="index">
-                <div class="col-12 d-flex">
-                    <b class="m-0 p-0">
-                        <span v-if="item.desc != 'TOPUP'">
-                            Payment Order
-                        </span>
-                        <span v-else>TOPUP</span>
-                    </b>
-                    <b class="ms-2">
-                        <i v-if="item.status == 'SUCCESS'" class="fa-solid fa-circle-check fa-beat text-success"></i>
-                    </b>
-                    <h4 class="ms-auto fw-bolder" :class="{'text-danger' : item.debt < 0}">Rp {{ item.debt }}</h4>
-                </div>
-                <div class="col-12">
-                    <span>{{ getDateTime(item.last_update) }}</span>
-                </div>
-                <div class="col-12">
-                    <hr>
+                    <div v-else class="icon-container p-3 rounded-circle d-flex align-items-center justify-content-center me-3">
+                        <div class="container-layer rounded-3 d-flex align-items-center justify-content-center p-2">
+                            <i class="fa-solid fa-utensils"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex w-100">
+                        <div class="item-info">
+                            <p class="fw-bold fs-5">
+                                <span v-if="item.desc == 'TOPUP'">Topup</span>
+                                <span v-else>Order</span>
+                                <i v-if="item.status == 'SUCCESS'" class="fa-solid fa-circle-check text-success ms-2"></i>
+                                <i v-else class="fa-solid fa-clock text-warning ms-2"></i>
+                            </p>
+                            <p class="fw-light items-list">{{ getDateTime(item.last_update) }}</p>
+                        </div>
+                        <div class="item-value-green ms-auto">
+                            <p :class="{'text-danger' : item.debt < 0}">Rp {{ item.debt }}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
