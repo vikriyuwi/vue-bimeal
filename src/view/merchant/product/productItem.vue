@@ -48,6 +48,13 @@ const availableToggle = async () => {
     })
 }
 
+function formatRupiah(number) {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR"
+    }).format(number);
+}
+
 onMounted(() => {
     fetchProduct()
 })
@@ -62,7 +69,7 @@ onMounted(() => {
         </div>
         <div class="menu-info text-center mt-3">
         <p><b>{{ product.name }}</b><a href="editMenu.html"><i class="ms-2 fa-solid fa-square-pen"></i></a></p>
-        <p class="fw-light mb-3">Rp {{ product.price }}</p>
+        <p class="fw-light mb-3">{{ formatRupiah(product.price) }}</p>
         <button class="btn rounded-4 py-2 w-100 text-center" v-on:click="availableToggle()" v-bind:class="{ 'btn-danger': product.is_available == 1 , 'btn-dark': product.is_available == 0}">
             <b>
                 <loadingBar v-if="isLoading == true" class="mx-auto"></loadingBar>

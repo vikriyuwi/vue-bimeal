@@ -69,6 +69,13 @@ onMounted(() => {
     fetchHistory()
     console.log(balanceHistory)
 });
+
+function formatRupiah(number) {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR"
+    }).format(number);
+}
 </script>
 
 <template>
@@ -104,7 +111,7 @@ onMounted(() => {
                             <p class="fw-light items-list">{{ getDateTime(item.last_update) }}</p>
                         </div>
                         <div class="item-value-green ms-auto">
-                            <p :class="{'text-danger' : item.debt < 0}">Rp {{ item.debt }}</p>
+                            <p :class="{'text-danger' : item.debt < 0}">{{ formatRupiah(item.debt) }}</p>
                         </div>
                     </div>
                 </div>

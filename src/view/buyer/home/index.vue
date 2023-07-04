@@ -87,6 +87,13 @@ const afterAddOrder = (data) => {
     orderNow.value = data
 }
 
+function formatRupiah(number) {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR"
+    }).format(number);
+}
+
 // const addOrder = async (id) => {
 //     const [isLoading, setLoading] = useState(false);
 //     const [isSuccess, setSuccess] = useState(false);
@@ -144,7 +151,7 @@ onMounted(() => {
             <p class="fw-light">Balance 💵</p>
             <h4>
                 <loadingBar v-if="isLoadingBalance" class="mx-auto"></loadingBar>
-                <b v-else>Rp {{ balance.balance }}</b>
+                <b v-else>{{ formatRupiah(balance.balance) }}</b>
             </h4>
         </div>
         <div class="topup-btn-container d-flex flex-column align-items-center me-3">

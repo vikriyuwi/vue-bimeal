@@ -96,6 +96,13 @@ function getDateTime(timestamp) {
     return result
 }
 
+function formatRupiah(number) {
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR"
+    }).format(number);
+}
+
 onMounted(() => {
     fetchOrder()
     fetchOrderDetail()
@@ -180,7 +187,7 @@ onMounted(() => {
                         </div>
                     </div>
                 </div>
-                <p class="ms-auto fw-semibold">Rp {{ detail.total_price }}</p>
+                <p class="ms-auto fw-semibold">{{ formatRupiah(detail.total_price) }}</p>
             </div>
             <div class="promo-code rounded-4 p-4 d-flex align-items-center my-4">
                 <p class="fw-semibold me-auto">Promo code</p>
@@ -189,9 +196,9 @@ onMounted(() => {
             <div class="price-card rounded-4 p-4 my-3">
                 <div class="d-flex align-items-center mb-3">
                     <p class="fw-light me-auto">Item total</p>
-                    <p class="fw-semibold">Rp 
-                        <span v-if="order.payment != null">{{ order.payment.bill }}</span>
-                        <span v-else>{{ bill }}</span>
+                    <p class="fw-semibold">
+                        <span v-if="order.payment != null">{{ formatRupiah(order.payment.bill) }}</span>
+                        <span v-else>{{ formatRupiah(bill) }}</span>
                     </p>
                 </div>
                 <div class="d-flex align-items-center mb-4">
@@ -199,14 +206,15 @@ onMounted(() => {
                     <p class="fw-semibold">Rp 0</p>
                 </div>
                 <p class="fw-light">Total</p>
-                <h4 class="fw-bold">Rp 
-                    <span v-if="order.payment != null">{{ order.payment.bill }}</span>
-                    <span v-else>{{ bill }}</span>
+                <h4 class="fw-bold">
+                    <span v-if="order.payment != null">{{ formatRupiah(order.payment.bill) }}</span>
+                    <span v-else>{{ formatRupiah(bill) }}</span>
                 </h4>
+                <p v-if="order.payment != null" class="fw-light text-sm"><span v-if="order.length != 0">{{ order.payment.id }}</span></p>
                 <p v-if="order.payment != null" class="fw-light text-sm">Paid at : <span v-if="order.length != 0">{{ getDateTime(order.payment.updated_at) }}</span></p>
             </div>
             <div v-if="order.status == 'NEW'" class="row mt-4 my-5">
-                <b>Your balance : Rp <span v-if="balance">{{ balance.balance }}</span></b>
+                <b>Your balance : <span v-if="balance">{{ formatRupiah(balance.balance) }}</span></b>
                 <button @click="payOrder" href="#" class="btn btn-dark rounded-4 py-3 w-100 text-center">
                     <i class="fa-solid fa-xl fa-wallet me-2"></i><b>pay now</b>
                 </button>
