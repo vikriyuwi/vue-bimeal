@@ -61,7 +61,7 @@ onMounted(() => {
     </div>
 
     <!-- order types -->
-    <div class="type-container row g-3 mt-4">
+    <!-- <div class="type-container row g-3 mt-4">
         <div class="col-6">
             <a type="button" href="#" class="type-button rounded-4 py-3 w-100 text-center border-0 active">
                 <i class="fa-solid fa-lg fa-circle-check me-2"></i><b>Active</b>
@@ -72,7 +72,7 @@ onMounted(() => {
                 <i class="fa-solid fa-lg fa-circle-xmark me-2"></i><b>Inactive</b>
             </a>
         </div>
-    </div>
+    </div> -->
 
     <!-- menu cards -->
     <div class="menu-container row g-3 mt-3">
