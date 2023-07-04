@@ -2,6 +2,7 @@
     import { ref,onMounted } from "vue";
     import { useRouter } from 'vue-router';
     import api from '../../../api';
+    import loadingBar from "../../../components/loadingBar.vue"
 
     var accessToken = localStorage.getItem('token');
 
@@ -9,22 +10,23 @@
     const username = ref("")
     const password = ref("")
     const errors = ref([]);
+    var isLoading = ref(false)
 
     const checkToken = async () => {
         if(localStorage.getItem("token") != null) {
             api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-            await api.get('/api/merchant/login-data')
+            await api.get('/api/admin/login-data')
             .then(response => {
-                router.push({name:"merchant.home"})
+                router.push({name:"admin.home"})
             }).catch(error => {
                 localStorage.removeItem('token')
-                router.push({name:"merchant.login"})
+                router.push({name:"admin.login"})
             });
         }
     }
 
     const storeLogin = async () => {
-
+        isLoading.value = true
         //init formData
         let formData = new FormData();
 
@@ -33,15 +35,18 @@
         formData.append("password", password.value);
 
         //store data with API
-        await api.post('/api/merchant/login', formData)
+        await api.post('/api/admin/login', formData)
         .then(response => {
             localStorage.setItem('token',response.data.access_token)
-            router.push({name:"merchant.home"})
+            router.push({name:"admin.home"})
         })
         .catch((error) => {
             //assign response error data to state "errors"
             errors.value = error.response.data;
-        });
+        })
+        .then(() => {
+            isLoading.value = false
+        })
     };
     
     onMounted(() => {
@@ -64,7 +69,7 @@
     </div>
     <div class="status-container p-4 rounded-4 mt-4 text-dark">
         <h1 class="fw-bolder">
-            Login Merchant
+            Login Admin
         </h1>
         <p class="mb-4">Want to make a new account? <router-link to="">Register here</router-link></p>
         <div v-if="errors.length != 0" class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -79,7 +84,14 @@
                 <label for="password">Password:</label>
                 <input type="password" class="form-control rounded-4" id="password" v-model="password">
             </div>
-            <button class="btn btn-success rounded-4">Login</button>
+            <button class="btn btn-success rounded-4">
+                <span v-if="isLoading != true">
+                    Login
+                </span>
+                <span v-else>
+                    <loadingBar></loadingBar>
+                </span>
+            </button>
         </form>
     </div>
 </div>

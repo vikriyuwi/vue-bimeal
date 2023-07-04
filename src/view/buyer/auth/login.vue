@@ -6,6 +6,7 @@
 
     //import api
     import api from '../../../api';
+    import loadingBar from "../../../components/loadingBar.vue"
 
     var accessToken = localStorage.getItem('token');
 
@@ -15,6 +16,7 @@
     const username = ref("")
     const password = ref("")
     const errors = ref([]);
+    var isLoading = ref(false)
 
     const checkToken = async () => {
         if(localStorage.getItem("token") != null) {
@@ -30,7 +32,7 @@
     }
 
     const storeLogin = async () => {
-
+        isLoading.value = true
         //init formData
         let formData = new FormData();
 
@@ -47,7 +49,10 @@
         .catch((error) => {
             //assign response error data to state "errors"
             errors.value = error.response.data;
-        });
+        })
+        .then(() => {
+            isLoading.value = false
+        })
     };
     
     onMounted(() => {
@@ -85,7 +90,14 @@
                 <label for="password">Password:</label>
                 <input type="password" class="form-control rounded-4" id="password" v-model="password">
             </div>
-            <button class="btn btn-success rounded-4">Login</button>
+            <button class="btn btn-success rounded-4">
+                <span v-if="isLoading != true">
+                    Login
+                </span>
+                <span v-else>
+                    <loadingBar></loadingBar>
+                </span>
+            </button>
         </form>
     </div>
 </div>

@@ -18,8 +18,8 @@ var orderProgress = '0%';
 var orderErrors = ref([]);
 var accessToken = localStorage.getItem('token');
 
-let isLoadingBalance = true;
-let isLoadingOrder = true;
+let isLoadingBalance = ref(true);
+let isLoadingOrder = ref(true);
 
 const fetchBalance = async () => {
     //fetch data 
@@ -27,7 +27,7 @@ const fetchBalance = async () => {
     await api.get('/api/balance')
     .then(response => {
         balance.value = response.data.data;
-        isLoadingBalance = false;
+        isLoadingBalance.value = false;
     });
 }
 
@@ -36,7 +36,7 @@ const fetchOrder = async () => {
     api.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
     await api.get('/api/order/now')
     .then(response => {
-        isLoadingOrder = false
+        isLoadingOrder.value = false
         orderNow.value = response.data.data
         switch (orderNow.value.status) {
             case 'PAID':

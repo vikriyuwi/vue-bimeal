@@ -19,6 +19,12 @@ import MerchantProduct from "../view/merchant/product/index.vue"
 import MerchantProductAdd from "../view/merchant/product/productAdd.vue"
 import MerchantProfile from "../view/merchant/profile/index.vue"
 
+import AdminHome from "../view/admin/home/index.vue"
+import AdminLogin from "../view/admin/auth/login.vue"
+import AdminLogout from "../view/admin/auth/logout.vue"
+import AdminTopup from "../view/admin/home/topup.vue"
+import AdminProfile from "../view/admin/profile/index.vue"
+
 const routes = [
   {
     path: "/",
@@ -109,7 +115,36 @@ const routes = [
     name: "merchant.profile",
     component: MerchantProfile
   },
-  
+
+
+
+
+  {
+    path: "/admin",
+    name: "admin.home",
+    component: AdminHome
+  },
+  {
+    path: "/admin/login",
+    name: "admin.login",
+    component: AdminLogin
+  },
+  {
+    path: "/admin/logout",
+    name: "admin.logout",
+    component: AdminLogout
+  },
+  {
+    path: "/admin/topup/:id",
+    name: "admin.topup",
+    component: AdminTopup
+  },
+  {
+    path: "/admin/profile",
+    name: "admin.profile",
+    component: AdminProfile
+  },
+
 ];
 
 const router = createRouter({
