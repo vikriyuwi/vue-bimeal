@@ -252,7 +252,7 @@ onMounted(() => {
                 </div>
                 <div class="menu-info text-center mt-3">
                     <p><b>{{ product.name }}</b></p>
-                    <p class="fw-light">IDR {{ product.price }}</p>
+                    <p class="fw-light">{{ formatRupiah(product.price) }}</p>
                     <addOrderButton :id="product.id" :access-token="accessToken" @order-now="afterAddOrder"></addOrderButton>
                 </div>
             </div>
