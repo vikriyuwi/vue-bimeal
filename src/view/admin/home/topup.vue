@@ -118,7 +118,7 @@ onMounted(() => {
                             Accept
                         </span>
                     </button>
-                    <button class="btn btn-lg btn-success rounded-4 w-100">
+                    <button v-else class="btn btn-lg btn-success rounded-4 w-100">
                         Accepted
                     </button>
                 </div>
