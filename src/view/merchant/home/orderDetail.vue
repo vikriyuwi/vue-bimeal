@@ -230,6 +230,7 @@ onMounted(() => {
                     <span v-if="order.payment != null">{{ order.payment.bill }}</span>
                     <span v-else>{{ bill }}</span>
                 </h4>
+                <p v-if="order.payment != null" class="fw-light text-sm"><span v-if="order.length != 0">{{ order.payment.id }}</span></p>
                 <p v-if="order.payment != null" class="fw-light text-sm">Paid at : <span v-if="order.length != 0">{{ getDateTime(order.payment.updated_at) }}</span></p>
             </div>
         </div>

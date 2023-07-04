@@ -92,7 +92,9 @@ onMounted(() => {
         </div>
         <div class="row action-buttons g-5">
             <div class="col-12 mx-0">
-                <button class="btn btn-lg btn-accept fw-bold rounded-4 w-100 text-center">View more</button>
+                <router-link :to="{name:'merchant.order.detail',params:{id:order.id}}" class="btn btn-lg btn-accept fw-bold rounded-4 w-100 text-center">
+                    View more
+                </router-link>
             </div>
         </div>
     </div>  

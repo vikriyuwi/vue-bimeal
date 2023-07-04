@@ -15,6 +15,8 @@ import MerchantHome from "../view/merchant/home/index.vue"
 import MerchantLogin from "../view/merchant/auth/login.vue"
 import MerchantLogout from "../view/merchant/auth/logout.vue"
 import MerchantOrderDetail from "../view/merchant/home/orderDetail.vue"
+import MerchantProduct from "../view/merchant/product/index.vue"
+import MerchantProductAdd from "../view/merchant/product/productAdd.vue"
 
 const routes = [
   {
@@ -90,6 +92,16 @@ const routes = [
     path: "/merchant/order/:id",
     name: "merchant.order.detail",
     component: MerchantOrderDetail
+  },
+  {
+    path: "/merchant/product",
+    name: "merchant.product",
+    component: MerchantProduct
+  },
+  {
+    path: "/merchant/product/add",
+    name: "merchant.product.add",
+    component: MerchantProductAdd
   },
   
 ];

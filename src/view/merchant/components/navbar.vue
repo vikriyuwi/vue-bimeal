@@ -18,7 +18,7 @@ function isStartWith(routeName) {
           <div class="footer-row row px-3">
               <div class="col-4 text-center" v-bind:class="{ 'active': isActive('/merchant') }">
                   <div class="col-con">
-                    <router-link to="merchant">
+                    <router-link to="/merchant">
                       <i class="fa-solid fa-xl fa-shop"></i>
                     </router-link>
                   </div>
@@ -26,7 +26,7 @@ function isStartWith(routeName) {
               </div>
               <div class="col-4 text-center" v-bind:class="{ 'active': isActive('/merchant/product') }">
                   <div class="col-con">
-                    <router-link to="merchant/product" id="search">
+                    <router-link to="/merchant/product" id="search">
                         <i class="fa-solid fa-xl fa-utensils"></i>
                     </router-link>
                   </div>
@@ -34,7 +34,7 @@ function isStartWith(routeName) {
               </div>
               <div class="col-4 text-center" v-bind:class="{ 'active': isStartWith('/merchant/profile') }">
                   <div class="col-con">
-                      <router-link to="merchant/profile">
+                      <router-link to="/merchant/profile">
                         <i class="fa-solid fa-xl fa-file-lines"></i>
                       </router-link>
                   </div>
